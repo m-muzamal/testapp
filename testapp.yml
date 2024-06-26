@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testapp
+  labels:
+    app: testapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testapp
+  template:
+    metadata:
+      labels:
+        app: testapp
+    spec:
+      containers:
+        - name: testapp-frontend
+          image: muzamal/test-frontend:03
+          ports:
+            - containerPort: 5173
+        - name: testapp-backend
+          image: muzamal/test-backend:03
+          ports:
+            - containerPort: 5000

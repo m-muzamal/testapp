@@ -1,0 +1,13 @@
+FROM node:18-alpine as builder
+
+WORKDIR /backend
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 5000
+
+CMD [ "npm", "run", "start" ]

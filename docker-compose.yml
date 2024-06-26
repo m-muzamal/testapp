@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: test-frontend
+    image: muzamal/test-frontend:03
+    volumes:
+      - ./frontend/src:/frontend/src
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: test-backend
+    image: muzamal/test-backend:03
+    volumes:
+      - ./backend/index.js:/backend/index.js
+    ports:
+      - "5000:5000"
