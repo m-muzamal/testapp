@@ -22,5 +22,5 @@ jobs:
       - name: Login to the docker hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       
-      - name: Push docker image
+      - name: Push docker image to docker hub
         run: docker push muzamal/testapp:latest
