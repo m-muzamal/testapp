@@ -1,0 +1,25 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build docker image
+        working-directory: frontend/
+        run: sudo docker build -t muzamal/testapp:latest .
+      
+      - name: Login to the docker hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      
+      - name: Push docker image to docker hub
+        run: docker push muzamal/testapp:latest

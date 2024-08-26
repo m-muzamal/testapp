@@ -4,7 +4,7 @@ services:
   frontend:
     build: ./frontend
     container_name: test-frontend
-    image: muzamal/test-frontend:03
+    image: muzamal/test-frontend:06
     volumes:
       - ./frontend/src:/frontend/src
     ports:
@@ -15,7 +15,7 @@ services:
   backend:
     build: ./backend
     container_name: test-backend
-    image: muzamal/test-backend:03
+    image: muzamal/test-backend:04
     volumes:
       - ./backend/index.js:/backend/index.js
     ports:

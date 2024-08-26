@@ -75,3 +75,13 @@ h2 {
 .err {
   color: red;
 }
+
+#chart {
+  height: 100%;
+  width: 100%;
+}
+.myChart {
+  background-color: #fff;
+  height: 400px;
+  /* width: 500px; */
+}
