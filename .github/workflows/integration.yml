@@ -19,7 +19,7 @@ jobs:
         run: sudo docker build -t muzamal/testapp:latest .
       
       - name: Login to the docker hub
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_PASSWORDs }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       
       - name: Push docker image to docker hub
         run: docker push muzamal/testapp:latest
