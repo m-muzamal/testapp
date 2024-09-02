@@ -23,4 +23,8 @@ jobs:
       
       - name: Push docker image to docker hub
         run: docker push muzamal/testapp:latest
- 
+
+      - name: Post error message on failure
+        if: failure()  # This condition checks if any previous step has failed
+        run: |
+          echo "An error occurred during deployment. Please check the logs."
