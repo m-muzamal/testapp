@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -7,14 +7,30 @@ import Chart from "./Componenets/Chart";
 import { user } from "./dummyData/user";
 import { useDebounse } from "./hooks/useDebounce";
 import { useThrottle } from "./hooks/useThrottle";
+import MyResponsiveLineChart from "./Componenets/NivoChart";
+import { data } from "./dummyData/ChartData";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "./Redux/Products/productSlice";
+import About from "./Componenets/About";
+import { decrement, increment } from "./Redux/Counter/counterSlice";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const count = useSelector((state) => state.counter.value);
   const [userData, serUserData] = useState(user);
   const [search, setSearch] = useState("");
-  const debounceValue = useDebounse(search);
-  const throttleValue = useThrottle(search);
+  const debounceValue = useDebounse(search); // coustom hook
+  const throttleValue = useThrottle(search); //  coustom hook
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const dispatch = useDispatch();
+  const prod = useSelector((state) => state.products.items);
+  const status = useSelector((state) => state.products.status);
+  const error = useSelector((state) => state.products.erroe);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchProducts());
+    }
+  }, [fetchProducts]);
 
   // console.log(throttleValue, "Throttling");
   // console.log(debounceValue, "Debouncing");
@@ -23,8 +39,8 @@ function App() {
     setSearch(e.target.value);
   };
 
+  // useMemo
   useMemo(() => {
-    console.log("filter");
     serUserData(
       user.filter((item) =>
         item.name.toLowerCase().includes(debounceValue?.toLowerCase())
@@ -39,53 +55,118 @@ function App() {
       y: e.clientY,
     });
   };
-  return (
-    <div className="app" onMouseMove={handleMouseMove}>
-      <div
-        className="circle"
-        style={{
-          left: `${position.x - 30}px`,
-          top: `${position.y - 130}px`,
-        }}
-      ></div>
-      <input
-        type="text"
-        placeholder="Search user"
-        value={search}
-        onChange={handleChange}
-        autoFocus
-      />
-      <p className="user" style={{ color: userData?.length === 0 && "red" }}>
-        Total users: {userData?.length}
-      </p>
-      <div className="users">
-        {userData?.map((user) => (
-          <p className="user" key={user.id}>
-            {user.name}
-          </p>
-        ))}
-      </div>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite app</h1>
 
-      {/* chart  */}
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+  console.log("home");
+
+  // useCallback
+  const func = useCallback(() => {
+    console.log("function");
+  }, []);
+
+  return (
+    <>
+      <div className="app home-section" onMouseMove={handleMouseMove}>
+        {/* useRef  */}
+        <div
+          className="circle"
+          style={{
+            left: `${position.x - 30}px`,
+            top: `${position.y - 30}px`,
+          }}
+        ></div>
+
+        {/* form handling */}
+        <input
+          type="text"
+          placeholder="Search user"
+          value={search}
+          onChange={handleChange}
+          autoFocus
+        />
+        <p className="user" style={{ color: userData?.length === 0 && "red" }}>
+          Total users: {userData?.length}
+        </p>
+
+        {/* list users  */}
         <div className="users">
-          <Users />
+          {userData?.map((user) => (
+            <p className="user" key={user.id}>
+              {user.name}
+            </p>
+          ))}
         </div>
-        {/* <Chart/> */}
+
+        {/* logos  */}
+        <div>
+          <a href="https://vitejs.dev" target="_blank">
+            <img src={viteLogo} className="logo" alt="Vite logo" />
+          </a>
+          <a href="https://react.dev" target="_blank">
+            <img src={reactLogo} className="logo react" alt="React logo" />
+          </a>
+        </div>
+        <h1>Vite app</h1>
+
+        <div className="card">
+          {/* counter  */}
+          <div className="counter">
+            <p
+              className="value"
+              style={{
+                color: count < 0 ? "red" : count === 0 ? "#646cffaa" : "white",
+              }}
+            >
+              {count}
+            </p>
+            <button
+              onClick={() => dispatch(increment())}
+              className="counterBtn left"
+            >
+              +
+            </button>
+            <button
+              onClick={() => dispatch(decrement())}
+              className="counterBtn right"
+            >
+              -
+            </button>
+          </div>
+
+          {/* backend users  */}
+          <div className="users">
+            <Users />
+          </div>
+
+          {/* <Chart/> */}
+        </div>
+
+        {/* <div style={{ height: "500px", width: "100%" }}>
+        <MyResponsiveLineChart data={data} />
+      </div> */}
       </div>
-    </div>
+
+      {/* store  */}
+      <section className="product-section">
+        <h1>Store</h1>
+        <div className="content">
+          {prod.map((prod, index) => (
+            <div key={index} className="prod">
+              <div className="img">
+                <img src={prod.image} alt="" />
+              </div>
+              <h3>{prod.title.slice(0, 15)}...</h3>
+              <p></p>
+              <p>
+                Price: <span>{prod.price}$</span>
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* about */}
+      <About func={func} />
+    </>
   );
 }
 
