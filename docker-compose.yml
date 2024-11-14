@@ -8,14 +8,14 @@ services:
     volumes:
       - ./frontend/src:/frontend/src
     ports:
-      - "5173:5173"
+      - "80:80"
     depends_on:
       - backend
 
   backend:
     build: ./backend
     container_name: test-backend
-    image: muzamal/test-backend:04
+    image: muzamal/test-backend:06
     volumes:
       - ./backend/index.js:/backend/index.js
     ports:

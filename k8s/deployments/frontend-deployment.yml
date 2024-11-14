@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: muzamal/test-frontend:06
+          image: muzamal/test-frontend:11
           ports:
-            - containerPort: 5173
+            - containerPort: 80
