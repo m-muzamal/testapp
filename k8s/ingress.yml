@@ -5,7 +5,7 @@ metadata:
   namespace: mzml
 spec:
   rules:
-    - host: mzmltry.com
+    - host: internship.com
       http:
         paths:
           - path: /
@@ -14,7 +14,7 @@ spec:
               service:
                 name: frontend
                 port:
-                  number: 5173
+                  number: 80
           - path: /backend
             pathType: Prefix
             backend:
