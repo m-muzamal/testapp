@@ -24,31 +24,31 @@ const ApexChart = () => {
       dataLabels: {
         enabled: false,
       },
-      colors: ['#0000FF', '#00FF00', '#FF0000', '#E91E63', '#FF9800'],
+      colors: ["#0000FF", "#00FF00", "#FF0000", "#E91E63", "#FF9800"],
       stroke: {
         curve: "smooth",
       },
       xaxis: {
         categories: [
-          'Week 1', 
-          'Week 2', 
-          'Week 3', 
-          'Week 4', 
-          'Week 5', 
-          'Week 6', 
-          'Week 7'
+          "Week 1",
+          "Week 2",
+          "Week 3",
+          "Week 4",
+          "Week 5",
+          "Week 6",
+          "Week 7",
         ],
         labels: {
           style: {
-            fontSize: '12px'
-          }
-        }
+            fontSize: "12px",
+          },
+        },
       },
       yaxis: {
         min: 0,
         max: 120,
         tickAmount: 10,
-      }
+      },
     },
   });
 
@@ -57,14 +57,14 @@ const ApexChart = () => {
       <div id="chart">
         <ReactApexChart
           options={chartState.options}
-          series={chartState.series}  
+          series={chartState.series}
           type="area"
-          height= "100%"
+          height="100%"
         />
       </div>
       <div id="html-dist"></div>
     </div>
   );
 };
-  
+
 export default ApexChart;
